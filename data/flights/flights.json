@@ -1,0 +1,39 @@
+[
+  {
+    "id": 1,
+    "flightNumber": "FL001",
+    "origin": "New York",
+    "destination": "London",
+    "departureTime": "2024-12-20T10:00:00.000Z",
+    "arrivalTime": "2024-12-20T18:00:00.000Z",
+    "price": 850.00,
+    "seats": 200,
+    "availableSeats": 150,
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": 2,
+    "flightNumber": "FL002",
+    "origin": "Paris",
+    "destination": "Tokyo",
+    "departureTime": "2024-12-21T14:00:00.000Z",
+    "arrivalTime": "2024-12-22T08:00:00.000Z",
+    "price": 1200.00,
+    "seats": 300,
+    "availableSeats": 250,
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": 3,
+    "flightNumber": "FL003",
+    "origin": "Dubai",
+    "destination": "Singapore",
+    "departureTime": "2024-12-22T09:00:00.000Z",
+    "arrivalTime": "2024-12-22T15:00:00.000Z",
+    "price": 650.00,
+    "seats": 180,
+    "availableSeats": 120,
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  }
+]
+

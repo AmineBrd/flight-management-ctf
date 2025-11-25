@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Flight Details</h1>
+            <nav>
+                <span>Welcome, <%= user.email %> (<%= user.role %>)</span>
+                <a href="/flights" class="btn btn-secondary">Back to Flights</a>
+                <a href="/auth/logout" class="btn btn-secondary">Logout</a>
+            </nav>
+        </header>
+        
+        <main>
+            <div class="flight-detail">
+                <h2>Flight <%= flight.flightNumber %></h2>
+                <div class="detail-info">
+                    <p><strong>Origin:</strong> <%= flight.origin %></p>
+                    <p><strong>Destination:</strong> <%= flight.destination %></p>
+                    <p><strong>Departure Time:</strong> <%= new Date(flight.departureTime).toLocaleString() %></p>
+                    <p><strong>Arrival Time:</strong> <%= new Date(flight.arrivalTime).toLocaleString() %></p>
+                    <p><strong>Price:</strong> $<%= flight.price %></p>
+                    <p><strong>Total Seats:</strong> <%= flight.seats %></p>
+                    <p><strong>Available Seats:</strong> <%= flight.availableSeats %></p>
+                    <p><strong>Created:</strong> <%= new Date(flight.createdAt).toLocaleString() %></p>
+                    <% if (flight.updatedAt) { %>
+                        <p><strong>Last Updated:</strong> <%= new Date(flight.updatedAt).toLocaleString() %></p>
+                    <% } %>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
+

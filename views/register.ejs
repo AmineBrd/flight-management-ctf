@@ -5,45 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <div class="container">
-        <div class="auth-container">
-            <h1>Register</h1>
+<body class="auth-page">
+    <div class="auth-background">
+        <div class="auth-background-overlay"></div>
+        <div class="auth-decoration-plane">✈</div>
+    </div>
+    
+    <div class="auth-wrapper">
+        <div class="auth-container-glass">
+            <!-- Air Algérie Logo -->
+            <div class="air-algerie-logo">
+                <div class="logo-icon-large">✈</div>
+                <div class="logo-text-container">
+                    <h1 class="logo-title">Air Algérie</h1>
+                    <p class="logo-subtitle">Flight Management System</p>
+                </div>
+            </div>
             
-            <% if (error) { %>
-                <div class="alert alert-error"><%= error %></div>
-            <% } %>
-            
-            <form action="/auth/register" method="POST" class="auth-form">
-                <div class="form-group">
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" name="username" required>
-                </div>
+            <div class="auth-content">
+                <h2 class="auth-title">Create Account</h2>
+                <p class="auth-subtitle">Join us to start managing flights</p>
                 
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
+                <% if (error) { %>
+                    <div class="alert alert-error-glass"><%= error %></div>
+                <% } %>
                 
-                <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
+                <% if (success) { %>
+                    <div class="alert alert-success-glass"><%= success %></div>
+                <% } %>
                 
-                <div class="form-group">
-                    <label for="role">Role:</label>
-                    <select id="role" name="role">
-                        <option value="user">User</option>
-                        <option value="admin">Admin</option>
-                    </select>
-                </div>
+                <form action="/auth/register" method="POST" class="auth-form-glass">
+                    <div class="form-group-glass">
+                        <label for="username" class="form-label-glass">Username</label>
+                        <input type="text" id="username" name="username" class="form-input-glass" placeholder="Enter your username" required>
+                    </div>
+                    
+                    <div class="form-group-glass">
+                        <label for="email" class="form-label-glass">Email Address</label>
+                        <input type="email" id="email" name="email" class="form-input-glass" placeholder="Enter your email" required>
+                    </div>
+                    
+                    <div class="form-group-glass">
+                        <label for="password" class="form-label-glass">Password</label>
+                        <input type="password" id="password" name="password" class="form-input-glass" placeholder="Create a password" required>
+                    </div>
+                    
+                    <div class="form-group-glass">
+                        <label for="role" class="form-label-glass">Role</label>
+                        <select id="role" name="role" class="form-input-glass">
+                            <option value="user">User</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn-glass btn-glass-primary">
+                        <span>Create Account</span>
+                        <svg class="btn-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </form>
                 
-                <button type="submit" class="btn btn-primary">Register</button>
-            </form>
-            
-            <p class="auth-link">Already have an account? <a href="/auth/login">Login here</a></p>
-            <p class="auth-link"><a href="/">Back to Home</a></p>
+                <div class="auth-footer-links">
+                    <p class="auth-link-text">Already have an account? <a href="/auth/login" class="auth-link-glass">Sign In</a></p>
+                    <p class="auth-link-text"><a href="/" class="auth-link-glass">← Back to Home</a></p>
+                </div>
+            </div>
         </div>
     </div>
 </body>

@@ -17,5 +17,8 @@ router.post('/login', authController.login);
 // Logout user
 router.get('/logout', authController.logout);
 
+// Get public key (for security testing)
+router.get('/public-key', authController.getPublicKeyEndpoint);
+
 module.exports = router;
 

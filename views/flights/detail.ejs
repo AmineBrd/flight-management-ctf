@@ -5,36 +5,118 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <div class="container">
-        <header>
-            <h1>Flight Details</h1>
-            <nav>
-                <span>Welcome, <%= user.email %> (<%= user.role %>)</span>
-                <a href="/flights" class="btn btn-secondary">Back to Flights</a>
-                <a href="/auth/logout" class="btn btn-secondary">Logout</a>
-            </nav>
-        </header>
-        
-        <main>
-            <div class="flight-detail">
-                <h2>Flight <%= flight.flightNumber %></h2>
-                <div class="detail-info">
-                    <p><strong>Origin:</strong> <%= flight.origin %></p>
-                    <p><strong>Destination:</strong> <%= flight.destination %></p>
-                    <p><strong>Departure Time:</strong> <%= new Date(flight.departureTime).toLocaleString() %></p>
-                    <p><strong>Arrival Time:</strong> <%= new Date(flight.arrivalTime).toLocaleString() %></p>
-                    <p><strong>Price:</strong> $<%= flight.price %></p>
-                    <p><strong>Total Seats:</strong> <%= flight.seats %></p>
-                    <p><strong>Available Seats:</strong> <%= flight.availableSeats %></p>
-                    <p><strong>Created:</strong> <%= new Date(flight.createdAt).toLocaleString() %></p>
-                    <% if (flight.updatedAt) { %>
-                        <p><strong>Last Updated:</strong> <%= new Date(flight.updatedAt).toLocaleString() %></p>
-                    <% } %>
+<body class="flights-page">
+    <div class="flights-background">
+        <div class="flights-background-overlay"></div>
+        <div class="flights-decoration-plane">✈</div>
+    </div>
+    
+    <!-- Glassy Header -->
+    <header class="flights-header-glass">
+        <div class="flights-header-container">
+            <div class="flights-logo-section">
+                <div class="flights-logo-icon">✈</div>
+                <div>
+                    <h1 class="flights-header-title">Flight Details</h1>
+                    <p class="flights-header-subtitle">Air Algérie</p>
                 </div>
             </div>
-        </main>
+            <nav class="flights-nav-glass">
+                <div class="user-info-glass">
+                    <span class="user-email-glass"><%= user.email %></span>
+                    <span class="user-role-badge"><%= user.role %></span>
+                </div>
+                <a href="/flights" class="btn-glass btn-glass-secondary btn-small">← Back</a>
+                <a href="/auth/logout" class="btn-glass btn-glass-secondary btn-small">Logout</a>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="flights-wrapper">
+        <div class="flight-detail-container-glass">
+            <div class="flight-detail-header-glass">
+                <div class="flight-detail-number">
+                    <span class="flight-number-large"><%= flight.flightNumber %></span>
+                    <div class="flight-route-large">
+                        <span class="route-city"><%= flight.origin %></span>
+                        <div class="route-line">
+                            <svg width="60" height="2" viewBox="0 0 60 2" fill="none">
+                                <path d="M0 1L60 1" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-dasharray="4 4"/>
+                            </svg>
+                        </div>
+                        <span class="route-city"><%= flight.destination %></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flight-detail-content-glass">
+                <div class="detail-grid-glass">
+                    <div class="detail-card-glass">
+                        <div class="detail-icon">🛫</div>
+                        <div class="detail-content">
+                            <span class="detail-label">Departure</span>
+                            <span class="detail-value"><%= new Date(flight.departureTime).toLocaleString() %></span>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-card-glass">
+                        <div class="detail-icon">🛬</div>
+                        <div class="detail-content">
+                            <span class="detail-label">Arrival</span>
+                            <span class="detail-value"><%= new Date(flight.arrivalTime).toLocaleString() %></span>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-card-glass">
+                        <div class="detail-icon">💰</div>
+                        <div class="detail-content">
+                            <span class="detail-label">Price</span>
+                            <span class="detail-value price-large">$<%= flight.price %></span>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-card-glass">
+                        <div class="detail-icon">💺</div>
+                        <div class="detail-content">
+                            <span class="detail-label">Available Seats</span>
+                            <span class="detail-value"><%= flight.availableSeats %> / <%= flight.seats %></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-info-section-glass">
+                    <h3 class="detail-section-title">Flight Information</h3>
+                    <div class="detail-info-list">
+                        <div class="detail-info-item-glass">
+                            <span class="info-item-label">Origin</span>
+                            <span class="info-item-value"><%= flight.origin %></span>
+                        </div>
+                        <div class="detail-info-item-glass">
+                            <span class="info-item-label">Destination</span>
+                            <span class="info-item-value"><%= flight.destination %></span>
+                        </div>
+                        <div class="detail-info-item-glass">
+                            <span class="info-item-label">Total Seats</span>
+                            <span class="info-item-value"><%= flight.seats %></span>
+                        </div>
+                        <div class="detail-info-item-glass">
+                            <span class="info-item-label">Created</span>
+                            <span class="info-item-value"><%= new Date(flight.createdAt).toLocaleString() %></span>
+                        </div>
+                        <% if (flight.updatedAt) { %>
+                            <div class="detail-info-item-glass">
+                                <span class="info-item-label">Last Updated</span>
+                                <span class="info-item-value"><%= new Date(flight.updatedAt).toLocaleString() %></span>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

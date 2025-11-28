@@ -14,6 +14,13 @@
     "password": "$2y$10$9wRQqnEqbLf2x.ZZwzcZI.9aG9KZO.Bkiv943CkkhqqYVcqBYuVB2",
     "role": "user",
     "createdAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": 3,
+    "username": "anyuser",
+    "email": "anyuser@example.com",
+    "password": "$2a$10$uTC6900NneTCTJtU3TslLeuruC0.9nGb110JFv.VRCQlISaz0Krsa",
+    "role": "user",
+    "createdAt": "2025-11-25T20:57:09.018Z"
   }
 ]
-

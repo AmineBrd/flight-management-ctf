@@ -1,0 +1,14 @@
+<div class="date-selector-wrapper">
+    <div class="compact-selector">
+        <div class="compact-icon">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M15 2H17C17.5304 2 18.0391 2.21071 18.4142 2.58579C18.7893 2.96086 19 3.46957 19 4V17C19 17.5304 18.7893 18.0391 18.4142 18.4142C18.0391 18.7893 17.5304 19 17 19H3C2.46957 19 1.96086 18.7893 1.58579 18.4142C1.21071 18.0391 1 17.5304 1 17V4C1 3.46957 1.21071 2.96086 1.58579 2.58579C1.96086 2.21071 2.46957 2 3 2H5M15 2V6M15 2H5M5 2V6M5 2H3M3 6H17M17 6V17H3V6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <div class="compact-content">
+            <span class="compact-label">DATE</span>
+            <input type="date" class="compact-input date-input" name="<%= fieldName || 'departureDate' %>" value="<%= defaultValue || '' %>">
+        </div>
+    </div>
+</div>
+

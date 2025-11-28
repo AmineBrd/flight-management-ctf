@@ -9,7 +9,8 @@
     "price": 850.00,
     "seats": 200,
     "availableSeats": 150,
-    "createdAt": "2024-01-01T00:00:00.000Z"
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "imageUrl": "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80"
   },
   {
     "id": 2,
@@ -21,7 +22,8 @@
     "price": 1200.00,
     "seats": 300,
     "availableSeats": 250,
-    "createdAt": "2024-01-01T00:00:00.000Z"
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "imageUrl": "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1200&q=80"
   },
   {
     "id": 3,
@@ -33,7 +35,22 @@
     "price": 650.00,
     "seats": 180,
     "availableSeats": 120,
-    "createdAt": "2024-01-01T00:00:00.000Z"
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "imageUrl": "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=80"
+  },
+  {
+    "id": 4,
+    "flightNumber": "FL004",
+    "origin": "Algiers",
+    "destination": "Beijing",
+    "departureTime": "2024-12-23T10:00:00.000Z",
+    "arrivalTime": "2024-12-23T18:00:00.000Z",
+    "price": 1000.00,
+    "seats": 200,
+    "availableSeats": 150,
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "imageUrl": "https://airalgerie.dz/wp-content/uploads/2022/10/PEKIN.jpg"
   }
 ]
+
 

@@ -1,0 +1,42 @@
+<div class="class-selector-wrapper">
+    <div class="compact-selector">
+        <div class="compact-icon">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M2 5H18M2 5C1.44772 5 1 5.44772 1 6V16C1 16.5523 1.44772 17 2 17H18C18.5523 17 19 16.5523 19 16V6C19 5.44772 18.5523 5 18 5M2 5V3C2 2.44772 2.44772 2 3 2H5C5.55228 2 6 2.44772 6 3V5M18 5V3C18 2.44772 17.5523 2 17 2H15C14.4477 2 14 2.44772 14 3V5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <div class="compact-content">
+            <span class="compact-label">CLASS</span>
+            <div class="class-selector" data-field="<%= fieldName || 'class' %>">
+                <span class="class-display">ECONOMY</span>
+                <svg class="class-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+    <div class="class-dropdown" id="class-dropdown-<%= fieldName || 'class' %>">
+        <div class="dropdown-item" data-value="economy">
+            <div class="dropdown-item-icon">💺</div>
+            <div class="dropdown-item-content">
+                <div class="dropdown-item-name">Economy</div>
+                <div class="dropdown-item-code">Standard seating</div>
+            </div>
+        </div>
+        <div class="dropdown-item" data-value="business">
+            <div class="dropdown-item-icon">🛋️</div>
+            <div class="dropdown-item-content">
+                <div class="dropdown-item-name">Business</div>
+                <div class="dropdown-item-code">Premium seating</div>
+            </div>
+        </div>
+        <div class="dropdown-item" data-value="first">
+            <div class="dropdown-item-icon">👑</div>
+            <div class="dropdown-item-content">
+                <div class="dropdown-item-name">First Class</div>
+                <div class="dropdown-item-code">Luxury seating</div>
+            </div>
+        </div>
+    </div>
+</div>
+

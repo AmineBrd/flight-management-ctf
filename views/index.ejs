@@ -7,58 +7,332 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <header class="main-header">
-        <div class="header-container">
-            <div class="logo-section">
-                <div class="logo-icon">✈</div>
-                <h1 class="logo-text">Flight Management System</h1>
+<body class="homepage-body">
+    <!-- Top Notice Bar -->
+    <div class="notice-bar">
+        <div class="notice-content">
+            <span class="notice-text">IMPORTANT: Notice to passengers traveling to Abidjan</span>
+            <button class="notice-close" aria-label="Close notice">×</button>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="homepage-header">
+        <div class="header-wrapper">
+            <!-- Branding -->
+            <div class="branding-section">
+                <div class="brand-logo">
+                    <div class="brand-icon">✈</div>
+                    <div class="brand-text">
+                        <span class="brand-arabic">الخطوط الجوية الجزائرية</span>
+                        <span class="brand-latin">AIR ALGÉRIE</span>
+                    </div>
+                </div>
             </div>
-            <nav class="main-nav">
-                <a href="/auth/login" class="nav-link">Login</a>
-                <a href="/auth/register" class="nav-link nav-link-primary">Register</a>
+
+            <!-- Utility Navigation -->
+            <nav class="utility-nav">
+                <a href="#" class="utility-link">
+                    <span class="utility-icon">🔍</span>
+                    <span>SEARCH</span>
+                </a>
+                <a href="#" class="utility-link">
+                    <span class="utility-icon">❓</span>
+                    <span>NEED HELP</span>
+                </a>
+                <div class="language-selector">
+                    <span class="utility-icon">🌐</span>
+                    <span>DZ-EN</span>
+                </div>
+                <a href="#" class="utility-link utility-plus">
+                    <span>Plus</span>
+                </a>
+                <a href="/auth/login" class="utility-link utility-login">LOGIN</a>
             </nav>
         </div>
-    </header>
-    
-    <main class="hero-section">
-        <div class="hero-background">
-            <div class="hero-overlay"></div>
-            <div class="airplane-decoration">✈</div>
-        </div>
-        <div class="hero-content">
-            <div class="hero-badge">Welcome</div>
-            <h2 class="hero-title">Experience Excellence in Flight Management</h2>
-            <p class="hero-description">
-                Your trusted partner for seamless flight operations, bookings, and comprehensive travel management. 
-                Built with security and reliability at its core.
-            </p>
-            <div class="hero-features">
-                <div class="feature-item">
-                    <div class="feature-icon">🔒</div>
-                    <span>Secure Platform</span>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon">⚡</div>
-                    <span>Fast & Reliable</span>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon">🌍</div>
-                    <span>Global Reach</span>
-                </div>
+
+        <!-- Main Navigation -->
+        <nav class="main-navigation">
+            <div class="nav-wrapper">
+                <a href="#" class="nav-item">DISCOVER</a>
+                <a href="#" class="nav-item">PLAN YOUR TRIP</a>
+                <a href="#" class="nav-item">TRAVEL EXPERIENCE</a>
+                <a href="#" class="nav-item">AIR ALGÉRIE PLUS</a>
             </div>
-            <div class="hero-actions">
-                <a href="/auth/login" class="btn btn-primary-hero">Get Started</a>
-                <a href="/auth/register" class="btn btn-secondary-hero">Create Account</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section with Flight Search -->
+    <main class="hero-section-homepage">
+        <div class="hero-background-image">
+            <div class="hero-overlay-gradient"></div>
+            <div class="airplane-wing-decoration"></div>
+        </div>
+
+        <!-- Flight Search Widget -->
+        <div class="flight-search-container">
+            <div class="flight-search-widget">
+                <!-- Search Tabs -->
+                <div class="search-tabs">
+                    <button class="search-tab active" data-tab="book">Book a Flight</button>
+                    <button class="search-tab" data-tab="manage">Manage my Booking</button>
+                    <button class="search-tab" data-tab="checkin">Check-in</button>
+                    <button class="search-tab" data-tab="status">Flight Status</button>
+                    <button class="search-tab" data-tab="timetable">Time Table</button>
+                </div>
+
+                <!-- Trip Type Selection -->
+                <div class="trip-type-selection">
+                    <label class="trip-option">
+                        <input type="radio" name="tripType" value="roundtrip" checked>
+                        <span>Round trip</span>
+                    </label>
+                    <label class="trip-option">
+                        <input type="radio" name="tripType" value="oneway">
+                        <span>One way</span>
+                    </label>
+                    <label class="trip-option">
+                        <input type="radio" name="tripType" value="multiple">
+                        <span>Multiple destinations</span>
+                    </label>
+                </div>
+
+                <!-- Search Form -->
+                <form action="/flights" method="GET" class="flight-search-form">
+                    <div class="search-form-grid">
+                        <!-- Departure Airport -->
+                        <%- include('components/airportSelector', {
+                            label: 'DEPARTURE AIRPORT',
+                            fieldName: 'departure',
+                            defaultValue: 'ALGIERS (ALG)',
+                            subtext: 'Houari Boumediene Airport - ALGERIA'
+                        }) %>
+
+                        <!-- Swap Button -->
+                        <button type="button" class="swap-airports-btn" aria-label="Swap airports">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M7 16V4M7 4L3 8M7 4L11 8M17 8V20M17 20L21 16M17 20L13 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+
+                        <!-- Arrival Airport -->
+                        <%- include('components/airportSelector', {
+                            label: 'ARRIVAL AIRPORT',
+                            fieldName: 'arrival',
+                            placeholder: 'Select Country / City',
+                            subtext: 'Airport'
+                        }) %>
+
+                        <!-- Date -->
+                        <%- include('components/dateSelector', {
+                            fieldName: 'departureDate',
+                            defaultValue: '2025-12-01'
+                        }) %>
+
+                        <!-- Class -->
+                        <%- include('components/classSelector', {
+                            fieldName: 'class'
+                        }) %>
+
+                        <!-- Passengers -->
+                        <%- include('components/passengerSelector', {
+                            fieldName: 'passengers'
+                        }) %>
+                    </div>
+
+                    <!-- Promo Code & Search Button -->
+                    <div class="search-form-footer">
+                        <a href="#" class="promo-code-link">+ promo code</a>
+                        <button type="submit" class="search-flight-btn">
+                            <span>Search Flights</span>
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </main>
-    
+
+    <!-- Featured Destinations Section -->
+    <section class="destinations-section">
+        <div class="destinations-container">
+            <div class="destinations-header">
+                <div>
+                    <p class="destinations-kicker">Top Picks</p>
+                    <h2 class="destinations-title">Discover our featured routes</h2>
+                    <p class="destinations-subtitle">Exclusive fares curated for your next escape</p>
+                </div>
+                <a href="/flights" class="destinations-link">
+                    View all destinations
+                    <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+                        <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+            </div>
+
+            <% const featuredFlights = Array.isArray(flights) ? flights : []; %>
+            <% if (featuredFlights.length > 0) { %>
+            <div class="destinations-grid">
+                <% featuredFlights.forEach(function(flight, index) { %>
+                    <div class="destination-card <%= index === 0 ? 'card-large' : '' %>">
+                        <img src="<%= flight.imageUrl || 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=80' %>" alt="<%= flight.origin %> to <%= flight.destination %>">
+                        <div class="destination-overlay">
+                            <% if (index % 2 === 1) { %>
+                                <span class="destination-badge">Tarif O Bag</span>
+                            <% } %>
+                            <div class="destination-text">
+                                <h3>Algiers - <%= flight.destination %></h3>
+                                <p>From $<%= Number(flight.price).toFixed(0) %> USD</p>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+            <% } else { %>
+            <div class="destinations-empty">
+                <p>No featured routes available at this time. Please check back soon!</p>
+            </div>
+            <% } %>
+        </div>
+    </section>
+
+    <!-- Footer -->
     <footer class="main-footer">
         <p>&copy; 2024 Flight Management System. All rights reserved.</p>
     </footer>
+
+    <script>
+        // Tab switching functionality
+        document.querySelectorAll('.search-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.search-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Close notice bar
+        document.querySelector('.notice-close')?.addEventListener('click', function() {
+            document.querySelector('.notice-bar').style.display = 'none';
+        });
+
+        // Swap airports
+        document.querySelector('.swap-airports-btn')?.addEventListener('click', function() {
+            const departureInput = document.querySelector('[data-field="departure"] .selector-input');
+            const arrivalInput = document.querySelector('[data-field="arrival"] .selector-input');
+            if (departureInput && arrivalInput) {
+                const temp = departureInput.value;
+                departureInput.value = arrivalInput.value || '';
+                arrivalInput.value = temp;
+            }
+        });
+
+        // Airport Selector Dropdowns
+        document.querySelectorAll('.airport-selector').forEach(selector => {
+            const dropdown = document.getElementById('dropdown-' + selector.dataset.field);
+            const input = selector.querySelector('.selector-input');
+            
+            selector.addEventListener('click', function(e) {
+                e.stopPropagation();
+                // Close other dropdowns
+                document.querySelectorAll('.airport-dropdown').forEach(d => {
+                    if (d !== dropdown) d.classList.remove('active');
+                });
+                dropdown.classList.toggle('active');
+            });
+
+            // Select airport
+            dropdown?.querySelectorAll('.dropdown-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    input.value = this.dataset.label;
+                    dropdown.classList.remove('active');
+                });
+            });
+
+            // Search functionality
+            const searchInput = dropdown?.querySelector('.dropdown-search-input');
+            searchInput?.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                dropdown.querySelectorAll('.dropdown-item').forEach(item => {
+                    const text = item.textContent.toLowerCase();
+                    item.style.display = text.includes(searchTerm) ? 'flex' : 'none';
+                });
+            });
+        });
+
+        // Class Selector Dropdown
+        document.querySelectorAll('.class-selector').forEach(selector => {
+            const dropdown = document.getElementById('class-dropdown-' + selector.dataset.field);
+            const display = selector.querySelector('.class-display');
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = selector.dataset.field;
+            hiddenInput.value = 'economy';
+            selector.parentElement.appendChild(hiddenInput);
+
+            selector.addEventListener('click', function(e) {
+                e.stopPropagation();
+                document.querySelectorAll('.class-dropdown').forEach(d => {
+                    if (d !== dropdown) d.classList.remove('active');
+                });
+                dropdown.classList.toggle('active');
+            });
+
+            dropdown?.querySelectorAll('.dropdown-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    display.textContent = this.querySelector('.dropdown-item-name').textContent.toUpperCase();
+                    hiddenInput.value = this.dataset.value;
+                    dropdown.classList.remove('active');
+                });
+            });
+        });
+
+        // Passenger Selector
+        document.querySelectorAll('.passenger-selector').forEach(selector => {
+            const countDisplay = selector.querySelector('.passenger-count');
+            const minusBtn = selector.querySelector('.minus');
+            const plusBtn = selector.querySelector('.plus');
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = selector.dataset.field;
+            hiddenInput.value = '1';
+            selector.parentElement.appendChild(hiddenInput);
+
+            let count = 1;
+
+            minusBtn.addEventListener('click', function() {
+                if (count > 1) {
+                    count--;
+                    updateDisplay();
+                }
+            });
+
+            plusBtn.addEventListener('click', function() {
+                if (count < 9) {
+                    count++;
+                    updateDisplay();
+                }
+            });
+
+            function updateDisplay() {
+                countDisplay.textContent = String(count).padStart(2, '0');
+                hiddenInput.value = count;
+            }
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.airport-selector') && !e.target.closest('.airport-dropdown')) {
+                document.querySelectorAll('.airport-dropdown').forEach(d => d.classList.remove('active'));
+            }
+            if (!e.target.closest('.class-selector') && !e.target.closest('.class-dropdown')) {
+                document.querySelectorAll('.class-dropdown').forEach(d => d.classList.remove('active'));
+            }
+        });
+    </script>
 </body>
 </html>
 

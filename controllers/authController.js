@@ -7,6 +7,12 @@ const path = require('path');
 const getPrivateKey = () => {
   const privateKeyPath = path.join(__dirname, '../keys/private.pem');
   return require('fs').readFileSync(privateKeyPath, 'utf8');
+}; 
+
+// Load RSA public key (for testing/API endpoints)
+const getPublicKey = () => {
+  const publicKeyPath = path.join(__dirname, '../keys/public.pem');
+  return require('fs').readFileSync(publicKeyPath, 'utf8');
 };
 
 // Helper function to read users
@@ -23,10 +29,11 @@ const saveUsers = async (users) => {
 };
 
 // Register new user
+// VULNERABLE: No input validation, allows role injection
 const register = async (req, res) => {
   try {
     const { username, email, password, role = 'user' } = req.body;
-
+    
     if (!username || !email || !password) {
       return res.render('register', { 
         error: 'All fields are required',
@@ -36,7 +43,7 @@ const register = async (req, res) => {
     }
 
     const users = await getUsers();
-
+    
     // Check if user already exists
     if (users.find(u => u.email === email || u.username === username)) {
       return res.render('register', { 
@@ -48,20 +55,21 @@ const register = async (req, res) => {
 
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Create new user
+    
+    // VULNERABILITY 1: Role injection - accepts role from request body
+    // Attacker can set role=admin during registration
     const newUser = {
       id: users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1,
       username,
       email,
       password: hashedPassword,
-      role,
+      role, // VULNERABLE: No validation on role value
       createdAt: new Date().toISOString()
     };
 
     users.push(newUser);
     await saveUsers(users);
-
+    
     res.redirect('/auth/login?success=Registration successful');
   } catch (error) {
     res.render('register', { 
@@ -76,7 +84,7 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-
+    
     if (!email || !password) {
       return res.render('login', { 
         error: 'Email and password are required',
@@ -87,7 +95,7 @@ const login = async (req, res) => {
 
     const users = await getUsers();
     const user = users.find(u => u.email === email);
-
+    
     if (!user) {
       return res.render('login', { 
         error: 'Invalid email or password',
@@ -98,7 +106,7 @@ const login = async (req, res) => {
 
     // Verify password
     const isValidPassword = await bcrypt.compare(password, user.password);
-
+    
     if (!isValidPassword) {
       return res.render('login', { 
         error: 'Invalid email or password',
@@ -107,26 +115,49 @@ const login = async (req, res) => {
       });
     }
 
-    // Generate JWT token using RS256 (RSA)
+    // Generate JWT token using RS256 (RSA) with standard claims
     const token = jwt.sign(
       { 
-        userId: user.id, 
-        email: user.email, 
-        role: user.role 
-      },
-      getPrivateKey(),
+        sub: user.id.toString(),
+        email: user.email,
+        role: user.role
+      }, 
+      getPrivateKey(), 
       { 
         algorithm: 'RS256',
-        expiresIn: process.env.JWT_EXPIRES_IN || '24h' 
+        expiresIn: '24h',
+        keyid: '1'
       }
     );
 
-    // Set token in cookie
+    // Check if this is an API request
+    const isAPIRequest = req.headers.accept?.includes('application/json') || 
+                         req.query.format === 'json' ||
+                         req.body.format === 'json';
+    
+    if (isAPIRequest) {
+      // VULNERABILITY 2: Information disclosure - exposes token in JSON
+      return res.json({
+        success: true,
+        token: token,
+        user: {
+          id: user.id,
+          email: user.email,
+          role: user.role
+        },
+        tokenInfo: {
+          algorithm: 'RS256',
+          expiresIn: '24h'
+        }
+      });
+    }
+
+    // Set token in cookie for web requests
     res.cookie('token', token, {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000 // 24 hours
     });
-
+    
     res.redirect('/flights');
   } catch (error) {
     res.render('login', { 
@@ -162,11 +193,27 @@ const showRegister = (req, res) => {
   });
 };
 
+// VULNERABILITY 3: Public key exposure endpoint
+// Exposes the public key which can be used for algorithm confusion attack
+const getPublicKeyEndpoint = (req, res) => {
+  try {
+    const publicKey = getPublicKey();
+    res.json({
+      publicKey: publicKey,
+      algorithm: 'RS256',
+      keyType: 'RSA',
+      note: 'Public key for JWT verification'
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to retrieve public key' });
+  }
+};
+
 module.exports = {
   register,
   login,
   logout,
   showLogin,
-  showRegister
+  showRegister,
+  getPublicKeyEndpoint
 };
-

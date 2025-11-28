@@ -1,0 +1,83 @@
+<div class="airport-selector-wrapper">
+    <label class="selector-label"><%= typeof label !== 'undefined' ? label : 'AIRPORT' %></label>
+    <div class="airport-selector" data-field="<%= typeof fieldName !== 'undefined' ? fieldName : 'airport' %>">
+        <div class="selector-icon">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M10 2C7.24 2 5 4.24 5 7C5 11.5 10 18 10 18C10 18 15 11.5 15 7C15 4.24 12.76 2 10 2ZM10 9.5C8.62 9.5 7.5 8.38 7.5 7C7.5 5.62 8.62 4.5 10 4.5C11.38 4.5 12.5 5.62 12.5 7C12.5 8.38 11.38 9.5 10 9.5Z" fill="currentColor"/>
+            </svg>
+        </div>
+        <div class="selector-content">
+            <input type="text" class="selector-input" value="<%= typeof defaultValue !== 'undefined' ? defaultValue : '' %>" placeholder="<%= typeof placeholder !== 'undefined' ? placeholder : 'Select Airport' %>" readonly>
+            <span class="selector-subtext"><%= typeof subtext !== 'undefined' ? subtext : 'Airport' %></span>
+        </div>
+        <div class="selector-arrow">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+    </div>
+    <div class="airport-dropdown" id="dropdown-<%= typeof fieldName !== 'undefined' ? fieldName : 'airport' %>">
+        <div class="dropdown-search">
+            <input type="text" class="dropdown-search-input" placeholder="Search airport...">
+        </div>
+        <div class="dropdown-list">
+            <div class="dropdown-item" data-value="ALG" data-label="ALGIERS (ALG)">
+                <div class="dropdown-item-icon">✈</div>
+                <div class="dropdown-item-content">
+                    <div class="dropdown-item-name">ALGIERS (ALG)</div>
+                    <div class="dropdown-item-code">Houari Boumediene Airport - ALGERIA</div>
+                </div>
+            </div>
+            <div class="dropdown-item" data-value="ORY" data-label="PARIS (ORY)">
+                <div class="dropdown-item-icon">✈</div>
+                <div class="dropdown-item-content">
+                    <div class="dropdown-item-name">PARIS (ORY)</div>
+                    <div class="dropdown-item-code">Paris Orly Airport - FRANCE</div>
+                </div>
+            </div>
+            <div class="dropdown-item" data-value="CDG" data-label="PARIS (CDG)">
+                <div class="dropdown-item-icon">✈</div>
+                <div class="dropdown-item-content">
+                    <div class="dropdown-item-name">PARIS (CDG)</div>
+                    <div class="dropdown-item-code">Charles de Gaulle Airport - FRANCE</div>
+                </div>
+            </div>
+            <div class="dropdown-item" data-value="LHR" data-label="LONDON (LHR)">
+                <div class="dropdown-item-icon">✈</div>
+                <div class="dropdown-item-content">
+                    <div class="dropdown-item-name">LONDON (LHR)</div>
+                    <div class="dropdown-item-code">Heathrow Airport - UNITED KINGDOM</div>
+                </div>
+            </div>
+            <div class="dropdown-item" data-value="DXB" data-label="DUBAI (DXB)">
+                <div class="dropdown-item-icon">✈</div>
+                <div class="dropdown-item-content">
+                    <div class="dropdown-item-name">DUBAI (DXB)</div>
+                    <div class="dropdown-item-code">Dubai International Airport - UAE</div>
+                </div>
+            </div>
+            <div class="dropdown-item" data-value="JFK" data-label="NEW YORK (JFK)">
+                <div class="dropdown-item-icon">✈</div>
+                <div class="dropdown-item-content">
+                    <div class="dropdown-item-name">NEW YORK (JFK)</div>
+                    <div class="dropdown-item-code">John F. Kennedy International Airport - USA</div>
+                </div>
+            </div>
+            <div class="dropdown-item" data-value="CDG" data-label="MADRID (MAD)">
+                <div class="dropdown-item-icon">✈</div>
+                <div class="dropdown-item-content">
+                    <div class="dropdown-item-name">MADRID (MAD)</div>
+                    <div class="dropdown-item-code">Madrid-Barajas Airport - SPAIN</div>
+                </div>
+            </div>
+            <div class="dropdown-item" data-value="FCO" data-label="ROME (FCO)">
+                <div class="dropdown-item-icon">✈</div>
+                <div class="dropdown-item-content">
+                    <div class="dropdown-item-name">ROME (FCO)</div>
+                    <div class="dropdown-item-code">Leonardo da Vinci Airport - ITALY</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

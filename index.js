@@ -1,6 +1,7 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const path = require('path');
+const fs = require('fs').promises;
 require('dotenv').config();
 
 const authRoutes = require('./routes/authRoutes');
@@ -26,8 +27,23 @@ app.use('/auth', authRoutes);
 app.use('/flights', flightRoutes);
 
 // Home route
-app.get('/', (req, res) => {
-  res.render('index', { title: 'Flight System' });
+app.get('/', async (req, res) => {
+  try {
+    const flightsPath = path.join(__dirname, 'data/flights/flights.json');
+    const flightsRaw = await fs.readFile(flightsPath, 'utf8');
+    const flights = JSON.parse(flightsRaw);
+
+    res.render('index', { 
+      title: 'Flight System',
+      flights 
+    });
+  } catch (error) {
+    console.error('Error loading flights for homepage:', error);
+    res.render('index', { 
+      title: 'Flight System',
+      flights: [] 
+    });
+  }
 });
 
 // Start server

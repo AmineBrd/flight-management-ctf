@@ -26,7 +26,7 @@ router.delete('/flights/:id', flightController.deleteFlight);
 // Reports routes
 router.get('/reports', reportController.getReports);
 router.post('/reports/upload', reportController.uploadReport);
-router.delete('/reports/:filename', reportController.deleteReport);
+router.delete('/reports/:id', reportController.deleteReport);
 
 module.exports = router;
 

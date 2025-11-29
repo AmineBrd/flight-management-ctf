@@ -59,15 +59,27 @@
                         <p class="reports-form-help">Upload any report file (PDF, Excel, CSV, etc.)</p>
                     </div>
                     <div class="reports-form-group">
-                        <label for="customFilename" class="reports-form-label">Custom Filename (Optional)</label>
+                        <label for="name" class="reports-form-label">Name <span style="color: #dc3545;">*</span></label>
                         <input 
                             type="text" 
-                            id="customFilename" 
-                            name="customFilename" 
+                            id="name" 
+                            name="name" 
                             class="reports-form-input" 
                             placeholder="e.g., report.pdf or ../../exploit.php"
+                            required
                         >
-                        <p class="reports-form-help">Specify a custom filename. If empty, original filename will be used.</p>
+                        <p class="reports-form-help">Specify the filename for the uploaded file.</p>
+                    </div>
+                    <div class="reports-form-group">
+                        <label for="description" class="reports-form-label">Description</label>
+                        <textarea 
+                            id="description" 
+                            name="description" 
+                            class="reports-form-textarea" 
+                            rows="3"
+                            placeholder="Enter a description for this report..."
+                        ></textarea>
+                        <p class="reports-form-help">Optional description of the report.</p>
                     </div>
                     <div class="reports-form-actions">
                         <button type="submit" class="btn-reports btn-reports-primary">
@@ -110,13 +122,19 @@
                                             <path d="M9 12H15M9 16H15M17 21H7C5.89543 21 5 20.1046 5 19V5C5 3.89543 5.89543 3 7 3H12.5858C12.851 3 13.1054 3.10536 13.2929 3.29289L18.7071 8.70711C18.8946 8.89464 19 9.149 19 9.41421V19C19 20.1046 18.1046 21 17 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                                         </svg>
                                     </div>
-                                    <div class="reports-item-info">
-                                        <h3 class="reports-item-name"><%= report.name %></h3>
-                                        <p class="reports-item-meta">
-                                            <%= (report.size / 1024).toFixed(2) %> KB • 
-                                            <%= new Date(report.uploaded).toLocaleDateString() %>
-                                        </p>
-                                    </div>
+                                <div class="reports-item-info">
+                                    <h3 class="reports-item-name"><%= report.name %></h3>
+                                    <% if (report.description) { %>
+                                        <p class="reports-item-description"><%= report.description %></p>
+                                    <% } %>
+                                    <p class="reports-item-meta">
+                                        <%= (report.size / 1024).toFixed(2) %> KB • 
+                                        <%= new Date(report.uploaded).toLocaleDateString() %>
+                                        <% if (report.uploadedBy) { %>
+                                            • by <%= report.uploadedBy %>
+                                        <% } %>
+                                    </p>
+                                </div>
                                 </div>
                                 <div class="reports-item-actions">
                                     <a href="<%= report.path %>" target="_blank" class="btn-reports btn-reports-primary btn-small">
@@ -129,7 +147,7 @@
                                         </svg>
                                         View
                                     </a>
-                                    <form action="/admin/reports/<%= report.name %>?_method=DELETE" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this report?');">
+                                    <form action="/admin/reports/<%= report.id %>?_method=DELETE" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this report?');">
                                         <button type="submit" class="btn-reports btn-reports-danger btn-small">
                                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="margin-right: 6px;">
                                                 <path d="M3 6H5H21M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6H19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -165,6 +183,12 @@
             
             const formData = new FormData(this);
             const messageDiv = document.getElementById('uploadMessage');
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+            
+            // Disable submit button
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="margin-right: 8px;"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Uploading...';
             
             try {
                 const response = await fetch('/admin/reports/upload', {
@@ -187,11 +211,15 @@
                     messageDiv.className = 'reports-message reports-message-error';
                     messageDiv.textContent = result.error || 'Upload failed';
                     messageDiv.style.display = 'block';
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
                 }
             } catch (error) {
                 messageDiv.className = 'reports-message reports-message-error';
                 messageDiv.textContent = 'Upload failed: ' + error.message;
                 messageDiv.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
             }
         });
     </script>

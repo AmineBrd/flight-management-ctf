@@ -48,9 +48,19 @@ const newHeader = {
   ...header,
   alg: 'HS256'
 };
-
+const formatKey = (key) => {
+  return (
+    key
+      .replace(/\\n/g, '\n')
+      .replace(/-----BEGIN PUBLIC KEY-----/, '')
+      .replace(/-----END PUBLIC KEY-----/, '')
+      .replace(/\s+/g, '')
+      .match(/.{1,64}/g)
+      .join('\n')
+  );
+};
 try {
-  const forged = jwt.sign(payload, publicKey, {
+  const forged = jwt.sign(payload, formatKey(publicKey), {
     algorithm: 'HS256',
     header: newHeader
   });

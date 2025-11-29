@@ -1,11 +1,14 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
+const methodOverride = require('method-override');
+const fileUpload = require('express-fileupload');
 const path = require('path');
 const fs = require('fs').promises;
 require('dotenv').config();
 
 const authRoutes = require('./routes/authRoutes');
 const flightRoutes = require('./routes/flightRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -14,6 +17,17 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(methodOverride('_method'));
+
+// VULNERABLE: File upload middleware with no restrictions
+// Allows any file type and size
+app.use(fileUpload({
+  createParentPath: true,
+  limits: { fileSize: 50 * 1024 * 1024 }, // 50MB (very high limit)
+  abortOnLimit: false,
+  useTempFiles: false,
+  tempFileDir: '/tmp/'
+}));
 
 // Set EJS as view engine
 app.set('view engine', 'ejs');
@@ -25,6 +39,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Routes
 app.use('/auth', authRoutes);
 app.use('/flights', flightRoutes);
+app.use('/admin', adminRoutes);
 
 // Home route
 app.get('/', async (req, res) => {

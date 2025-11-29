@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/reports.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="reports-page">
+    <!-- Reports Header -->
+    <header class="reports-header">
+        <div class="reports-header-container">
+            <div class="reports-logo-section">
+                <div class="reports-logo-icon">📊</div>
+                <div>
+                    <h1 class="reports-header-title">Reports Management</h1>
+                    <p class="reports-header-subtitle">Admin Panel - Air Algérie</p>
+                </div>
+            </div>
+            <nav class="reports-nav">
+                <div class="reports-user-info">
+                    <span class="reports-user-email"><%= user.email %></span>
+                    <span class="reports-role-badge">ADMIN</span>
+                </div>
+                <a href="/admin/flights" class="btn-reports btn-reports-outline">Flights</a>
+                <a href="/auth/logout" class="btn-reports btn-reports-secondary">Logout</a>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="reports-wrapper">
+        <div class="reports-container">
+            <!-- Upload Section -->
+            <div class="reports-upload-card">
+                <div class="reports-card-header">
+                    <h2 class="reports-card-title">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="margin-right: 10px;">
+                            <path d="M21 15V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V15M17 8L12 3M12 3L7 8M12 3V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Upload Report
+                    </h2>
+                </div>
+                <form id="uploadForm" action="/admin/reports/upload" method="POST" enctype="multipart/form-data" class="reports-upload-form">
+                    <div class="reports-form-group">
+                        <label for="reportFile" class="reports-form-label">Select Report File</label>
+                        <div class="reports-file-input-wrapper">
+                            <input type="file" id="reportFile" name="reportFile" class="reports-file-input" required>
+                            <label for="reportFile" class="reports-file-label">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                    <path d="M21 15V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V15M17 8L12 3M12 3L7 8M12 3V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <span class="file-label-text">Choose file...</span>
+                            </label>
+                        </div>
+                        <p class="reports-form-help">Upload any report file (PDF, Excel, CSV, etc.)</p>
+                    </div>
+                    <div class="reports-form-actions">
+                        <button type="submit" class="btn-reports btn-reports-primary">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="margin-right: 8px;">
+                                <path d="M21 15V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V15M17 8L12 3M12 3L7 8M12 3V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Upload Report
+                        </button>
+                    </div>
+                </form>
+                <div id="uploadMessage" class="reports-message" style="display: none;"></div>
+            </div>
+
+            <!-- Reports List Section -->
+            <div class="reports-content-card">
+                <div class="reports-section-header">
+                    <div>
+                        <h2 class="reports-section-title">Uploaded Reports</h2>
+                        <p class="reports-section-subtitle"><%= reports.length %> report<%= reports.length !== 1 ? 's' : '' %> available</p>
+                    </div>
+                </div>
+                
+                <% if (reports.length === 0) { %>
+                    <div class="reports-empty-state">
+                        <div class="reports-empty-icon">
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
+                                <path d="M9 12H15M9 16H15M17 21H7C5.89543 21 5 20.1046 5 19V5C5 3.89543 5.89543 3 7 3H12.5858C12.851 3 13.1054 3.10536 13.2929 3.29289L18.7071 8.70711C18.8946 8.89464 19 9.149 19 9.41421V19C19 20.1046 18.1046 21 17 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <h3>No Reports Available</h3>
+                        <p>Upload your first report to get started.</p>
+                    </div>
+                <% } else { %>
+                    <div class="reports-grid">
+                        <% reports.forEach(report => { %>
+                            <div class="reports-item-card">
+                                <div class="reports-item-header">
+                                    <div class="reports-item-icon">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <path d="M9 12H15M9 16H15M17 21H7C5.89543 21 5 20.1046 5 19V5C5 3.89543 5.89543 3 7 3H12.5858C12.851 3 13.1054 3.10536 13.2929 3.29289L18.7071 8.70711C18.8946 8.89464 19 9.149 19 9.41421V19C19 20.1046 18.1046 21 17 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                        </svg>
+                                    </div>
+                                    <div class="reports-item-info">
+                                        <h3 class="reports-item-name"><%= report.name %></h3>
+                                        <p class="reports-item-meta">
+                                            <%= (report.size / 1024).toFixed(2) %> KB • 
+                                            <%= new Date(report.uploaded).toLocaleDateString() %>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="reports-item-actions">
+                                    <a href="<%= report.path %>" target="_blank" class="btn-reports btn-reports-primary btn-small">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="margin-right: 6px;">
+                                            <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M14 2V8H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M16 13H8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                            <path d="M16 17H8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                            <path d="M10 9H9H8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                        </svg>
+                                        View
+                                    </a>
+                                    <form action="/admin/reports/<%= report.name %>?_method=DELETE" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this report?');">
+                                        <button type="submit" class="btn-reports btn-reports-danger btn-small">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="margin-right: 6px;">
+                                                <path d="M3 6H5H21M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6H19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                            Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // File input styling
+        const fileInput = document.getElementById('reportFile');
+        const fileLabel = document.querySelector('.file-label-text');
+        
+        fileInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                fileLabel.textContent = this.files[0].name;
+            } else {
+                fileLabel.textContent = 'Choose file...';
+            }
+        });
+
+        // Form submission with AJAX
+        document.getElementById('uploadForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const messageDiv = document.getElementById('uploadMessage');
+            
+            try {
+                const response = await fetch('/admin/reports/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    messageDiv.className = 'reports-message reports-message-success';
+                    messageDiv.textContent = 'File uploaded successfully!';
+                    messageDiv.style.display = 'block';
+                    this.reset();
+                    fileLabel.textContent = 'Choose file...';
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+                } else {
+                    messageDiv.className = 'reports-message reports-message-error';
+                    messageDiv.textContent = result.error || 'Upload failed';
+                    messageDiv.style.display = 'block';
+                }
+            } catch (error) {
+                messageDiv.className = 'reports-message reports-message-error';
+                messageDiv.textContent = 'Upload failed: ' + error.message;
+                messageDiv.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
+
+

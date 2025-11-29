@@ -19,49 +19,86 @@
     </div>
 
     <!-- Main Header -->
-    <header class="homepage-header">
-        <div class="header-wrapper">
-            <!-- Branding -->
+    <header class="homepage-header" role="banner">
+        <div class="header-container">
+            <!-- Branding Section - Left -->
             <div class="branding-section">
-                <div class="brand-logo">
+                <a href="/" class="brand-logo" aria-label="Air Algérie Home">
                     <div class="brand-icon">✈</div>
                     <div class="brand-text">
                         <span class="brand-arabic">الخطوط الجوية الجزائرية</span>
                         <span class="brand-latin">AIR ALGÉRIE</span>
                     </div>
-                </div>
+                </a>
             </div>
 
-            <!-- Utility Navigation -->
-            <nav class="utility-nav">
-                <a href="#" class="utility-link">
-                    <span class="utility-icon">🔍</span>
-                    <span>SEARCH</span>
-                </a>
-                <a href="#" class="utility-link">
-                    <span class="utility-icon">❓</span>
-                    <span>NEED HELP</span>
-                </a>
-                <div class="language-selector">
-                    <span class="utility-icon">🌐</span>
-                    <span>DZ-EN</span>
+            <!-- Main Navigation - Center -->
+            <nav class="main-navigation" role="navigation" aria-label="Main navigation">
+                <ul class="nav-menu">
+                    <li><a href="/" class="nav-item">Home</a></li>
+                    <li><a href="#" class="nav-item">Discover</a></li>
+                    <li><a href="#" class="nav-item">Plan Your Trip</a></li>
+                    <li><a href="#" class="nav-item">Travel Experience</a></li>
+                    <li class="nav-dropdown">
+                        <a href="#" class="nav-item">Services <span class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/flights">Book Flights</a></li>
+                            <li><a href="#">Manage Booking</a></li>
+                            <li><a href="#">Check-in</a></li>
+                            <li><a href="#">Flight Status</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#" class="nav-item">Air Algérie Plus</a></li>
+                </ul>
+            </nav>
+
+            <!-- Utility Section - Right -->
+            <div class="utility-section">
+                <!-- Search -->
+                <button class="utility-btn search-btn" aria-label="Search" title="Search">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                        <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+                        <path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <span class="utility-text">Search</span>
+                </button>
+
+                <!-- Language Selector -->
+                <div class="language-selector" role="button" aria-label="Language selector" tabindex="0">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                        <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <span class="utility-text">DZ-EN</span>
                 </div>
-                <a href="#" class="utility-link utility-plus">
+
+                <!-- Help -->
+                <a href="#" class="utility-btn help-btn" aria-label="Need Help" title="Need Help">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <span class="utility-text">Help</span>
+                </a>
+
+                <!-- Plus -->
+                <a href="#" class="utility-btn plus-btn" aria-label="Air Algérie Plus">
                     <span>Plus</span>
                 </a>
-                <a href="/auth/login" class="utility-link utility-login">LOGIN</a>
-            </nav>
-        </div>
 
-        <!-- Main Navigation -->
-        <nav class="main-navigation">
-            <div class="nav-wrapper">
-                <a href="#" class="nav-item">DISCOVER</a>
-                <a href="#" class="nav-item">PLAN YOUR TRIP</a>
-                <a href="#" class="nav-item">TRAVEL EXPERIENCE</a>
-                <a href="#" class="nav-item">AIR ALGÉRIE PLUS</a>
+                <!-- Login -->
+                <a href="/auth/login" class="utility-btn login-btn" aria-label="Login">
+                    <span>Login</span>
+                </a>
             </div>
-        </nav>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
     </header>
 
     <!-- Hero Section with Flight Search -->
@@ -186,7 +223,7 @@
                             <% } %>
                             <div class="destination-text">
                                 <h3>Algiers - <%= flight.destination %></h3>
-                                <p>From $<%= Number(flight.price).toFixed(0) %> USD</p>
+                                <p>From <%= Number(flight.price).toFixed(0) %> DZD</p>
                             </div>
                         </div>
                     </div>
@@ -206,6 +243,30 @@
     </footer>
 
     <script>
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const mainNavigation = document.querySelector('.main-navigation');
+        
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', function() {
+                const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                this.setAttribute('aria-expanded', !isExpanded);
+                mainNavigation.classList.toggle('mobile-open');
+                this.classList.toggle('active');
+            });
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (mobileMenuToggle && mainNavigation) {
+                if (!e.target.closest('.main-navigation') && !e.target.closest('.mobile-menu-toggle')) {
+                    mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                    mainNavigation.classList.remove('mobile-open');
+                    mobileMenuToggle.classList.remove('active');
+                }
+            }
+        });
+
         // Tab switching functionality
         document.querySelectorAll('.search-tab').forEach(tab => {
             tab.addEventListener('click', function() {
@@ -335,4 +396,5 @@
     </script>
 </body>
 </html>
+
 

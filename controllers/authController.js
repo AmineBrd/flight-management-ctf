@@ -158,7 +158,12 @@ const login = async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000 // 24 hours
     });
     
-    res.redirect('/flights');
+    // Redirect admin users to admin panel, regular users to flights
+    if (user.role === 'admin') {
+      res.redirect('/admin/flights');
+    } else {
+      res.redirect('/flights');
+    }
   } catch (error) {
     res.render('login', { 
       error: 'Login failed. Please try again.',

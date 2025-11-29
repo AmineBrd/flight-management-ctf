@@ -14,14 +14,14 @@ const saveFlights = async (flights) => {
   await fs.writeFile(flightsPath, JSON.stringify(flights, null, 2));
 };
 
-// Get all flights
+// Get all flights (user view)
 const getAllFlights = async (req, res) => {
   try {
     const flights = await getFlights();
-    res.render('flights/list', { 
+    res.render('pages/user/flights', { 
       flights,
       user: req.user,
-      title: 'Flights'
+      title: 'Available Flights'
     });
   } catch (error) {
     res.render('error', { 
@@ -31,7 +31,24 @@ const getAllFlights = async (req, res) => {
   }
 };
 
-// Get flight by ID
+// Get all flights (admin view)
+const getAllFlightsAdmin = async (req, res) => {
+  try {
+    const flights = await getFlights();
+    res.render('pages/admin/flights', { 
+      flights,
+      user: req.user,
+      title: 'Flight Management - Admin'
+    });
+  } catch (error) {
+    res.render('error', { 
+      message: 'Error fetching flights',
+      title: 'Error'
+    });
+  }
+};
+
+// Get flight by ID (user view)
 const getFlightById = async (req, res) => {
   try {
     const flights = await getFlights();
@@ -47,7 +64,35 @@ const getFlightById = async (req, res) => {
     res.render('flights/detail', { 
       flight,
       user: req.user,
-      title: `Flight ${flight.flightNumber}`
+      title: `Flight ${flight.flightNumber}`,
+      backUrl: '/flights'
+    });
+  } catch (error) {
+    res.render('error', { 
+      message: 'Error fetching flight',
+      title: 'Error'
+    });
+  }
+};
+
+// Get flight by ID (admin view)
+const getFlightByIdAdmin = async (req, res) => {
+  try {
+    const flights = await getFlights();
+    const flight = flights.find(f => f.id === parseInt(req.params.id));
+    
+    if (!flight) {
+      return res.render('error', { 
+        message: 'Flight not found',
+        title: 'Error'
+      });
+    }
+    
+    res.render('flights/detail', { 
+      flight,
+      user: req.user,
+      title: `Flight ${flight.flightNumber} - Admin`,
+      backUrl: '/admin/flights'
     });
   } catch (error) {
     res.render('error', { 
@@ -84,7 +129,7 @@ const createFlight = async (req, res) => {
     flights.push(newFlight);
     await saveFlights(flights);
 
-    res.redirect('/flights');
+    res.redirect('/admin/flights');
   } catch (error) {
     res.status(500).json({ error: 'Error creating flight' });
   }
@@ -115,7 +160,7 @@ const updateFlight = async (req, res) => {
     };
 
     await saveFlights(flights);
-    res.redirect('/flights');
+    res.redirect('/admin/flights');
   } catch (error) {
     res.status(500).json({ error: 'Error updating flight' });
   }
@@ -132,7 +177,7 @@ const deleteFlight = async (req, res) => {
     }
 
     await saveFlights(filteredFlights);
-    res.redirect('/flights');
+    res.redirect('/admin/flights');
   } catch (error) {
     res.status(500).json({ error: 'Error deleting flight' });
   }
@@ -140,7 +185,9 @@ const deleteFlight = async (req, res) => {
 
 module.exports = {
   getAllFlights,
+  getAllFlightsAdmin,
   getFlightById,
+  getFlightByIdAdmin,
   createFlight,
   updateFlight,
   deleteFlight

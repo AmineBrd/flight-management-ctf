@@ -2,7 +2,7 @@ const fs = require('fs').promises;
 const path = require('path');
 
 // VULNERABLE: File upload without proper validation
-// Allows execution of uploaded files
+// Allows execution of uploaded files and path traversal attacks
 const uploadReport = async (req, res) => {
   try {
     if (!req.files || !req.files.reportFile) {
@@ -13,8 +13,18 @@ const uploadReport = async (req, res) => {
     
     // VULNERABILITY: No file type validation
     // VULNERABILITY: No file size limit
-    // VULNERABILITY: Uses original filename (path traversal risk)
+    // VULNERABILITY: Uses user-provided filename directly (path traversal risk)
     // VULNERABILITY: Stores in public/uploads (executable location)
+    
+    // CRITICAL VULNERABILITY: Direct use of user-provided filename without sanitization
+    // Allows path traversal attacks like ../../../../../../../exploit.php
+    const customFilename = req.body.customFilename && req.body.customFilename.trim() !== '' 
+      ? req.body.customFilename.trim() 
+      : file.name;
+    
+    // VULNERABILITY: No path traversal protection
+    // VULNERABILITY: No sanitization - allows ../ sequences
+    // VULNERABILITY: Direct path.join with user input enables directory traversal
     
     const uploadDir = path.join(__dirname, '../public/uploads');
     
@@ -25,11 +35,14 @@ const uploadReport = async (req, res) => {
       // Directory might already exist
     }
 
-    // VULNERABILITY: Direct use of user-provided filename
-    const filePath = path.join(uploadDir, file.name);
+    // CRITICAL VULNERABILITY: Using user-provided filename directly in path.join
+    // This allows path traversal: ../../../../../../../exploit.php
+    // The path.join will resolve the .. sequences and write outside uploads directory
+    const filePath = path.join(uploadDir, customFilename);
     
+    // VULNERABILITY: No validation that filePath is within uploadDir
     // VULNERABILITY: No sanitization of filename
-    // VULNERABILITY: Allows overwriting existing files
+    // VULNERABILITY: Allows overwriting existing files anywhere on the system
     await file.mv(filePath);
 
     // VULNERABILITY: No permission restrictions on uploaded files
@@ -38,13 +51,14 @@ const uploadReport = async (req, res) => {
     res.json({
       success: true,
       message: 'File uploaded successfully',
-      filename: file.name,
-      path: `/uploads/${file.name}`,
-      size: file.size
+      filename: customFilename,
+      path: `/uploads/${customFilename}`,
+      size: file.size,
+      actualPath: filePath // For debugging - shows where file was actually saved
     });
   } catch (error) {
     console.error('Upload error:', error);
-    res.status(500).json({ error: 'File upload failed' });
+    res.status(500).json({ error: 'File upload failed: ' + error.message });
   }
 };
 

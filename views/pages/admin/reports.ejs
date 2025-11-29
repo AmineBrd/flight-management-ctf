@@ -65,10 +65,10 @@
                             id="name" 
                             name="name" 
                             class="reports-form-input" 
-                            placeholder="e.g., report.pdf or ../../exploit.php"
+                            placeholder="e.g., Monthly Sales Report"
                             required
                         >
-                        <p class="reports-form-help">Specify the filename for the uploaded file.</p>
+                        <p class="reports-form-help">Enter a display name for this report.</p>
                     </div>
                     <div class="reports-form-group">
                         <label for="description" class="reports-form-label">Description</label>
@@ -128,6 +128,7 @@
                                         <p class="reports-item-description"><%= report.description %></p>
                                     <% } %>
                                     <p class="reports-item-meta">
+                                        <span class="reports-filename">File: <%= report.originalFilename %></span><br>
                                         <%= (report.size / 1024).toFixed(2) %> KB • 
                                         <%= new Date(report.uploaded).toLocaleDateString() %>
                                         <% if (report.uploadedBy) { %>

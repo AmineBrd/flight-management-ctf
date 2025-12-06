@@ -18,6 +18,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(methodOverride('_method'));
+app.use((req, res, next) => {
+  res.setHeader("Server", "http");
+  next();
+});
 
 // VULNERABLE: File upload middleware with no restrictions
 // Allows any file type and size
@@ -59,6 +63,9 @@ app.get('/', async (req, res) => {
       flights: [] 
     });
   }
+});
+app.get('*', (req, res) => {
+  res.status(404).send('<h1>404 Not Found</h1><p>The page you are looking for does not exist.</p>');
 });
 
 // Start server
